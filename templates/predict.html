@@ -1,0 +1,140 @@
+{% extends "structure.html" %}
+
+
+{% block main %}
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/style.css') }}">
+    <h1>Prediction</h1>
+    
+    <form action="/predict" method="post">
+        <p class="predict_questions"> Status of existing checking account </p>
+        <input name="status" type="radio" value="A11"> x < 0
+        <input name="status" type="radio" value="A12"> 0 <= x < 200
+        <input name="status" type="radio" value="A13"> x >= 200
+        <input name="status" type="radio" value="A14"> No checking Account
+        <br> 
+        
+        <p class="predict_questions">Duration</p>
+        <input name="duration" type="text">
+        <br>
+
+        <p class="predict_questions"> Credit History </p>
+        <input type="radio" name="credit_history" value="A30"> No credits taken
+        <input type="radio" name="credit_history" value="A31"> All credits at this bank paid duly
+        <input type="radio" name="credit_history" value="A32"> Existing credits paid back duly till now
+        <input type="radio" name="credit_history" value="A33"> Delay in paying off in the past
+        <input type="radio" name="credit_history" value="A34"> Critical Account, Other credits exist
+        <br>
+
+        <p class="predict_questions">Purpose</p>
+        <input type="radio" name="purpose" value="A40"> New Car
+        <input type="radio" name="purpose" value="A41"> Used Car 
+        <input type="radio" name="purpose" value="A42"> Furniture Equipment
+        <input type="radio" name="purpose" value="A43"> Radio/Television
+        <input type="radio" name="purpose" value="A44"> Domestic Appliances
+        <input type="radio" name="purpose" value="A45"> Repairs
+        <input type="radio" name="purpose" value="A46"> Education
+        <input type="radio" name="purpose" value="A47"> Vacation
+        <input type="radio" name="purpose" value="A48"> Retraining
+        <input type="radio" name="purpose" value="A49"> Business
+        <input type="radio" name="purpose" value="A410"> Others
+        <br>
+
+        <p class="predict_questions">Credit Amount</p>
+        <input name="credit_amount" type="text">
+        <br>
+
+        <p class="predict_questions">Savings Account/Bonds</p>
+        <input type="radio" name="savings_account" value="A61"> x < 100 DM
+        <input type="radio" name="savings_account" value="A62"> 100 <= x < 500 DM
+        <input type="radio" name="savings_account" value="A63"> 500 <= x < 1000 DM
+        <input type="radio" name="savings_account" value="A64"> x >= 1000 DM
+        <input type="radio" name="savings_account" value="A65"> Unknown / No savings account
+        <br>
+
+        <p class="predict_questions">Present employment since</p>
+        <input type="radio" name="employed_since" value="A71"> unemployed
+        <input type="radio" name="employed_since" value="A72"> x < 1 yr
+        <input type="radio" name="employed_since" value="A73"> 1 <= x < 4yrs
+        <input type="radio" name="employed_since" value="A74"> 4 <= x < 7 yrs
+        <input type="radio" name="employed_since" value="A75"> x > 7yrs
+        <br>
+
+        <p class="predict_questions">Installment rate in precentage of disposable income</p> 
+        <input type="text" name="installment_rate">
+        <br>
+
+        <p class="predict_questions">Personal status and sex</p>
+        <input type="radio" name="maritial_status_sex" value="A91"> Male, Divorced/Seperated
+        <input type="radio" name="maritial_status_sex" value="A92"> Female, Divorced/Seperated/Married
+        <input type="radio" name="maritial_status_sex" value="A93"> Male, Single
+        <input type="radio" name="maritial_status_sex" value="A94"> Male, Married/Widowed
+        <input type="radio" name="maritial_status_sex" value="A95"> Female, Single
+        <br>
+
+        <p class="predict_questions">Other debtors / guarantors</p>
+        <input type="radio" name="other_debtors" value="A101"> None
+        <input type="radio" name="other_debtors" value="A102"> Co-applicant
+        <input type="radio" name="other_debtors" value="A103"> Guarantor
+        <br>
+
+        <p class="predict_questions">Present Residence since</p>
+        <input type="text" name="resident_since">
+        <br>
+
+        <p class="predict_questions">Property</p>
+        <input type="radio" name="property" value="A121"> Real Estate
+        <input type="radio" name="property" value="A122"> Building Society savings agreement/ life insurance
+        <input type="radio" name="property" value="A123">  Car or other
+        <input type="radio" name="property" value="A124"> Unknown/ No property
+        <br>
+
+        <p class="predict_questions">Age</p>
+        <input type="text" name="age">
+        <br>
+
+        <p class="predict_questions">Other Installment plans</p>
+        <input type="radio" name="other_installments" value="A141"> Bank
+        <input type="radio" name="other_installments" value="A142"> Stores
+        <input type="radio" name="other_installments" value="A143"> None
+        <br>
+
+        <p class="predict_questions">Housing</p>
+        <input type="radio" name="housing" value="A151"> Rent
+        <input type="radio" name="housing" value="A152"> Own
+        <input type="radio" name="housing" value="A153"> For Free
+        <br>
+
+        <p class="predict_questions">Number of existing credits at this bank</p>
+        <input type="text" name="existing_credits">
+
+        <p class="predict_questions">Job</p>
+        <input type="radio" name="job" value="A171"> Unemployed/Unskilled - Non Resident
+        <input type="radio" name="job" value="A172"> Unskilled - Resident
+        <input type="radio" name="job" value="A173"> Skilled Employee / Official
+        <input type="radio" name="job" value="A174"> Management/ Self-employed/Highly Qualified Employee/Officer
+        <br>
+
+        <p class="predict_questions">No of people liable to provide maintanance for</p>
+        <input type="text" name="no_of_dependents">
+
+        <p class="predict_questions">Telephone</p>
+        <input type="radio" name="telephone" value="A191"> None
+        <input type="radio" name="telephone" value="A192"> yes, registered under the customers name
+        <br>
+
+        <p class="predict_questions">Foreign Worker</p>
+        <input type="radio" name="foreign_worker" value="A201"> Yes
+        <input type="radio" name="foreign_worker" value="A202"> No
+
+        <br>
+        <br>
+        <input type = "submit" value="Predict">
+    </form>
+
+    
+
+    <p> {{ message }} </p>
+    <br>
+    <br>
+    <br>
+{% endblock main %}

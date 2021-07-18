@@ -12,13 +12,14 @@
 
 from flask import Flask, jsonify, request, session, redirect, url_for, g, Response
 from flask.templating import render_template
-from ml_utils import predict_credit, some_trial, retrain, explain_model
+from ml_utils import predict_credit, retrain, explain_model
 import sys
 import io
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 
 
 print('Hello World')
+
 
 app = Flask(__name__)
 app.secret_key = 'jumpjacks'
@@ -27,7 +28,12 @@ query = {}
 
 @app.route('/', methods = ['GET'])
 def home():
-    return render_template('index.html', message = "Home Message")
+    return render_template('index.html', message = "Click on the links to go the respective pages")
+
+
+@app.route('/about', methods = ["GET"])
+def about():
+    return render_template('about.html')
 
     
 @app.route('/predict', methods =['GET', 'POST'])
@@ -60,7 +66,8 @@ def predict():
                 query_dict[name] = request.form[name]
 
         print(query_dict)
-        print(some_trial())
+        
+        global query 
         query = query_dict
 
         prediction = predict_credit(query_dict)
@@ -82,6 +89,7 @@ def predict():
 @app.route('/feedback', methods=['POST'])
 def feedback():
     feedback_value = request.form["feedback"]
+    print(f'query: {query}')
     retrain_message = retrain(query, feedback_value)
 
     return render_template('index.html', message=f'Thanks for providing the feedback: {feedback_value}; {retrain_message}')
@@ -96,8 +104,6 @@ def plot_png():
 @app.route('/explain')
 def explain():
     return render_template("explain.html")
-
-
 
 
 if __name__ == '__main__':

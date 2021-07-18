@@ -12,7 +12,7 @@
 
 from flask import Flask, jsonify, request, session, redirect, url_for, g
 from flask.templating import render_template
-from ml_utils import predict_credit, some_trial
+from ml_utils import predict_credit, some_trial, retrain
 import sys
 
 
@@ -21,6 +21,7 @@ print('Hello World')
 app = Flask(__name__)
 app.secret_key = 'jumpjacks'
 
+query = {}
 
 @app.route('/', methods = ['GET'])
 def home():
@@ -58,20 +59,33 @@ def predict():
 
         print(query_dict)
         print(some_trial())
+        query = query_dict
 
         prediction = predict_credit(query_dict)
         message = f'This customer is {prediction} to give loan'
-        return render_template('predict.html', message=message)
 
-    # if request.method == 'GET':
-    #     message = 'Please sign up!'
-    #     return render_template("signup.html")
-    # else:
-    #     username = request.form["username"]
-    #     password = request.form["password"]
-    #     favorite_color = request.form["favorite_color"]
-    #     message = model.signup(username, password, favorite_color)
-    #     return render_template("signup.html", message = message)
+        feedback_template = """
+            <p> Please provide feedback about the above prediction </p>
+            <form action="/feedback" method="post">
+                <input type="radio" name="feedback" value="good"> Good Loan
+                <input type="radio" name="feedback" value="bad"> Bad Loan
+                <input type = "submit" value="Submit">
+            </form>
+
+        """
+
+        return render_template('predict.html', message=message, feedback=feedback_template)
+
+
+@app.route('/feedback', methods=['POST'])
+def feedback():
+    feedback_value = request.form["feedback"]
+    retrain_message = retrain(query, feedback_value)
+
+    return render_template('index.html', message=f'Thanks for providing the feedback: {feedback_value}; {retrain_message}')
+
+
+
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)

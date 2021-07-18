@@ -10,10 +10,12 @@
 #        'other_installments', 'housing', 'job', 'telephone', 'foreign_worker'],
 
 
-from flask import Flask, jsonify, request, session, redirect, url_for, g
+from flask import Flask, jsonify, request, session, redirect, url_for, g, Response
 from flask.templating import render_template
-from ml_utils import predict_credit, some_trial, retrain
+from ml_utils import predict_credit, some_trial, retrain, explain_model
 import sys
+import io
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 
 
 print('Hello World')
@@ -83,6 +85,17 @@ def feedback():
     retrain_message = retrain(query, feedback_value)
 
     return render_template('index.html', message=f'Thanks for providing the feedback: {feedback_value}; {retrain_message}')
+
+@app.route('/plot.png')
+def plot_png():
+    fig = explain_model()
+    output = io.BytesIO()
+    FigureCanvas(fig).print_png(output)
+    return Response(output.getvalue(), mimetype='image/png')    
+
+@app.route('/explain')
+def explain():
+    return render_template("explain.html")
 
 
 

@@ -133,7 +133,7 @@ def explain_model():
 
 	features = list(feature_index_dict.keys())
 
-	fig = plt.figure.Figure(figsize = (15, 35))
+	fig = plt.figure(figsize = (15, 35))
 	ax = fig.add_subplot(1, 1, 1)
 
 	# creating the bar plot
